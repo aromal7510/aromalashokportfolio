@@ -1021,16 +1021,16 @@
                 <div class="contact-form">
                     <form id="contactForm">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Name" required>
+                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Your Email" required>
+                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Subject" required>
+                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Your Message" required></textarea>
+                            <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
                         </div>
                         <button type="submit" class="btn">Send Message</button>
                     </form>
@@ -1106,4 +1106,241 @@
 
         // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Portfolio Filtering
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                document.querySelectorAll('.portfolio-item').forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Send email using EmailJS
+            emailjs.send("service_your_service_id", "template_your_template_id", {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                to_email: "aroma17510@gmail.com"
+            })
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('Thank you for your message! I will get back to you soon.');
+                document.getElementById('contactForm').reset();
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('There was an error sending your message. Please try again or contact me directly at aroma17510@gmail.com');
+            });
+        });
+
+        // Resume Content
+        const resumeContent = `
+            <div style="max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.5;">
+                <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c3e50; padding-bottom: 20px;">
+                    <h1 style="font-size: 28px; margin-bottom: 5px; color: #2c3e50;">Aromal Ashok</h1>
+                    <p style="font-size: 16px; color: #3498db; margin-bottom: 10px;">Software Developer</p>
+                    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; font-size: 14px;">
+                        <div>+91 7510467519</div>
+                        <div>aroma17510@gmail.com</div>
+                        <div>Parippally, Kollam, Kerala, India</div>
+                        <div>LinkedIn: linkedin.com/in/aromal-ashok-a97221241</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Professional Summary</h2>
+                    <p>MCA graduate with BCA background seeking Software Developer position. Proficient in PHP, MySQL, HTML, CSS, JavaScript, Laravel, Symfony, and web development technologies. Experienced in full-stack development, database management, MVC architecture, and Software Development Life Cycle. Strong problem-solving, teamwork, and communication skills.</p>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Education</h2>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div>
+                            <strong>Master of Computer Applications (MCA)</strong>
+                            <div>University of Kerala</div>
+                        </div>
+                        <div>2025</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div>
+                            <strong>Bachelor of Computer Applications (BCA)</strong>
+                            <div>University of Kerala</div>
+                        </div>
+                        <div>2022</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <strong>Higher Secondary (Science)</strong>
+                            <div>Kerala State Board</div>
+                        </div>
+                        <div>2019</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Work Experience</h2>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <strong>PHP Developer</strong>
+                            <div>2025 – Present</div>
+                        </div>
+                        <div style="font-style: italic; margin-bottom: 10px;">AddiTech Solutions Pvt Ltd, Technopark, Kerala</div>
+                        <ul style="padding-left: 20px;">
+                            <li>Develop back-end and full-stack solutions using PHP (OOP), MySQL, and MVC architecture</li>
+                            <li>Create responsive front-end interfaces with HTML, CSS, JavaScript, Bootstrap, jQuery, and AJAX</li>
+                            <li>Implement asynchronous data handling using AJAX and jQuery for dynamic web applications</li>
+                            <li>Collaborate with cross-functional teams to develop scalable and maintainable systems</li>
+                            <li>Optimize application performance, debug issues, and ensure cross-browser compatibility</li>
+                            <li>Deploy and manage code updates using FileZilla FTP client</li>
+                            <li>Develop and maintain School Management System with modules for student admission, attendance, fee management, and reporting</li>
+                            <li>Work on trade software solutions for business process automation and efficiency improvement</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Internships</h2>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <strong>Software Intern</strong>
+                            <div>3 Months</div>
+                        </div>
+                        <div style="font-style: italic; margin-bottom: 10px;">Smarthms & Solutions Pvt Ltd, Technopark, Trivandrum</div>
+                        <ul style="padding-left: 20px;">
+                            <li>Developed and maintained web applications using HTML, CSS, Bootstrap, PHP, and Symfony</li>
+                            <li>Utilized Symfony framework with MongoDB database for scalable web solutions</li>
+                            <li>Assisted in full-stack development and software testing procedures</li>
+                            <li>Gained practical experience in Software Development Life Cycle methodologies</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <strong>Software Trainee</strong>
+                            <div>4 Months</div>
+                        </div>
+                        <div style="font-style: italic; margin-bottom: 10px;">Logiprompt Techno Solutions India Pvt Ltd, Trivandrum</div>
+                        <ul style="padding-left: 20px;">
+                            <li>Contributed to front-end and back-end development using PHP and Laravel framework</li>
+                            <li>Designed responsive user interfaces using Bootstrap CSS framework</li>
+                            <li>Assisted in debugging and optimizing code for improved efficiency</li>
+                            <li>Worked on Pushpagiri Dental Hospital College Management System including patient registration, appointment scheduling, and billing modules</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Technical Skills</h2>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li><strong>Programming Languages:</strong> PHP, Java, Python</li>
+                                <li><strong>Web Technologies:</strong> HTML, CSS, JavaScript, Bootstrap, jQuery, AJAX</li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li><strong>Databases:</strong> MySQL, MongoDB</li>
+                                <li><strong>Frameworks:</strong> Symfony, CodeIgniter, Laravel</li>
+                                <li><strong>Development Methodologies:</strong> SDLC, MVC Architecture, OOP</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Projects</h2>
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: bold;">Assistant 360</div>
+                        <div><strong>Technologies:</strong> PHP, MySQL, HTML, CSS, Bootstrap</div>
+                        <p>Developed a task management web application to enhance productivity and task organization</p>
+                    </div>
+                    <div>
+                        <div style="font-weight: bold;">Assistant 4U</div>
+                        <div><strong>Technologies:</strong> Python, MySQL, HTML, CSS, Bootstrap</div>
+                        <p>Created a web-based automation tool for assistance-based tasks and workflow optimization</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 style="font-size: 18px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">Certifications</h2>
+                    <p>Web Technology – SWAYAM Online</p>
+                </div>
+            </div>
+        `;
+
+        // Insert resume content
+        document.getElementById('resume-content').innerHTML = resumeContent;
+
+        // Show success message on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('successMessage').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            }, 2000);
+        });
+
+        // Close success message
+        document.getElementById('closeSuccess').addEventListener('click', function() {
+            document.getElementById('successMessage').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('header').classList.add('scrolled');
+            } else {
+                document.querySelector('header').classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    
+    <!-- EmailJS Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS public key
+        })();
+    </script>
+</body>
+</html>
