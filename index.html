@@ -676,6 +676,38 @@
         .overlay.active {
             display: block;
         }
+
+            .btn {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
         
         /* Animations */
         @keyframes fadeIn {
@@ -1019,24 +1051,39 @@
                     </div>
                 </div>
                 
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message</button>
-                    </form>
-                </div>
+           <div class="contact-form">
+
+        <!-- HIDDEN CONFIG -->
+        <input type="hidden" id="serviceId" value="service_qxfgsks">
+        <input type="hidden" id="templateId" value="template_sp0z5qe">
+
+        <form id="contactForm">
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" placeholder="Your Name" required>
             </div>
+
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" id="message" placeholder="Message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Send Message</button>
+
+            <div id="success" class="success">✅ Message sent successfully!</div>
+            <div id="error" class="error">❌ Failed to send message.</div>
+
+        </form>
+    </div>
+</div>
+
+
         </div>
     </section>
 
@@ -1159,7 +1206,7 @@
                 document.getElementById('contactForm').reset();
             }, function(error) {
                 console.log('FAILED...', error);
-                alert('There was an error sending your message. Please try again or contact me directly at aromal7510@gmail.com');
+                // alert('There was an error sending your message. Please try again or contact me directly at aromal7510@gmail.com');
             });
         });
 
@@ -1343,6 +1390,35 @@
             emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS public key
         })();
     </script>
+
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+    emailjs.init("3sVNiNc39S2zeYxOH");
+
+    document.getElementById("contactForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const serviceId = document.getElementById("serviceId").value;
+        const templateId = document.getElementById("templateId").value;
+
+        emailjs.send(serviceId, templateId, {
+            from_name: document.getElementById("name").value,
+            from_email: document.getElementById("email").value,
+            subject: document.getElementById("subject").value,
+            message: document.getElementById("message").value
+        }).then(function(){
+            document.getElementById("success").style.display = "block";
+            document.getElementById("error").style.display = "none";
+            document.getElementById("contactForm").reset();
+        }, function(){
+            document.getElementById("success").style.display = "none";
+            document.getElementById("error").style.display = "block";
+        });
+    });
+</script>
+
 </body>
 </html>
 
